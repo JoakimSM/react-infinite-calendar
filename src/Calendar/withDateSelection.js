@@ -30,7 +30,7 @@ export const withDateSelection = compose(
     YearsComponent: enhanceYear(YearsComponent),
   })),
   withState('scrollDate', 'setScrollDate', props => props.selected || new Date()),
-  withProps(({onSelect, setScrollDate, ...props}) => {
+  withProps(({onSelect, onYearSelect, setScrollDate, ...props}) => {
     const selected = sanitizeDate(props.selected, props);
 
     return {
@@ -39,7 +39,7 @@ export const withDateSelection = compose(
           onClick: onSelect,
         },
         Years: {
-          onSelect: (year) => handleYearSelect(year, {onSelect, selected, setScrollDate}),
+          onSelect: (year) => handleYearSelect(year, {onYearSelect, selected, setScrollDate}),
         },
       },
       selected: selected && format(selected, 'YYYY-MM-DD'),
@@ -47,9 +47,9 @@ export const withDateSelection = compose(
   }),
 );
 
-function handleYearSelect(date, {setScrollDate, selected, onSelect}) {
+function handleYearSelect(date, {setScrollDate, selected, onYearSelect}) {
   const newDate = parse(date);
 
-  onSelect(newDate);
+  onYearSelect(newDate);
   setScrollDate(newDate);
 }
